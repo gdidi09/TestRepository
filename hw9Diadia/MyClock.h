@@ -11,7 +11,7 @@ void showCursor(bool flag);
 class MyClock
 {
 private:
-	time_t _hour;
+	time_t _hours;
 	time_t _min;
 	time_t _sec;
 	time_t tmp;

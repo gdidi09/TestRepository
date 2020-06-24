@@ -5,9 +5,9 @@ MyClock::MyClock()
 	_amPm = false;
 	_GMT = 27;
 	tmp = time(0) % (24 * 3600);
-	_hour = tmp / 3600 + _GMT;
-	if (_hour >= 24)
-		_hour = _hour % 24;
+	_hours = tmp / 3600 + _GMT;
+	if (_hours >= 24)
+		_hours = _hours % 24;
 	tmp = tmp % 3600;
 	_min = tmp / 60;
 	tmp = tmp % 60;
@@ -45,25 +45,25 @@ void MyClock::chekMin()
 void MyClock::chekHour()
 {
 	tmp = time(0) % (24 * 3600);
-	_hour = tmp / 3600 + _GMT;
-	if (_hour >= 24)
-		_hour = _hour % 24;
+	_hours = tmp / 3600 + _GMT;
+	if (_hours >= 24)
+		_hours = _hours % 24;
 	if (_amPm)
 	{
-		if (_hour <= 12)
+		if (_hours <= 12)
 		{
 			setCursorPosition(14, 1);
 			std::cout << std::setfill(' ') << std::setw(2) << "AM";
 
 		}
-		if (_hour > 12)
+		if (_hours > 12)
 		{
-			_hour = _hour - 12;
+			_hours = _hours - 12;
 			setCursorPosition(14, 1);
 			std::cout << std::setfill(' ') << std::setw(2) << "PM";
 		}
-		else if (_hour < 0)
-			_hour = 11;
+		else if (_hours < 0)
+			_hours = 11;
 	}
 }
 
@@ -77,31 +77,36 @@ void MyClock::chekGMT()
 	std::cout.unsetf(std::ios::showpos | std::ios::left);
 }
 
+
 void MyClock::menu()const
 {
 	setCursorPosition(0,4);
-	std::cout << "Press \"->\" for GMT+\n";
-	std::cout << "Press \"<-\" for GMT-\n";
+	std::cout << "Press \"->\" for  GMT+\n";
+	std::cout << "Press \"<-\" for  GMT-\n";
 	std::cout << "Press \"spase\" for change format of time\n";
 	std::cout << "Press \"ESC\" for Exit\n";
 }
+
 
 void MyClock::setAmPm(const bool flag)
 {
 	_amPm = flag;
 }
 
+
 bool MyClock::getAmPm()const
 {
 	return _amPm;
 }
 
+
 std::ostream& operator<<(std::ostream& out, const MyClock& obj)
 {
 	setCursorPosition(5, 1);
-	out << std::setfill('0') << std::setw(2) << obj._hour << ":" << std::setfill('0') << std::setw(2) << obj._min << ":" << std::setfill('0') << std::setw(2) << obj._sec << "\n";
+	out << std::setfill('0') << std::setw(2) << obj._hours << ":" << std::setfill('0') << std::setw(2) << obj._min << ":" << std::setfill('0') << std::setw(2) << obj._sec << "\n";
 	return out;
 }
+
 
 void setCursorPosition(short x, short y)
 {
@@ -110,6 +115,7 @@ void setCursorPosition(short x, short y)
 	COORD coord = { (SHORT)x, (SHORT)y };
 	SetConsoleCursorPosition(hOut, coord);
 }
+
 
 void showCursor(bool flag)
 {
